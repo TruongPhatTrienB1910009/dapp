@@ -12,7 +12,7 @@ import {
     Text
 } from "@pancakeswap/uikit";
 import { useTranslation } from "@pancakeswap/localization";
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { renderBGCard } from "utils/renderBGCard";
 
@@ -21,22 +21,15 @@ interface PropsCard {
     nftName?: string
     nftImage?: string
     nftType?: string
-    speed?: number
-    quantity?: number
-    randomBoxItem?: any
 }
 
 const CardShoes: React.FC<PropsCard> = ({
     // ID,
     nftName,
     nftImage,
-    nftType,
-    speed,
-    quantity,
-    randomBoxItem
+    nftType
 }) => {
     const { t } = useTranslation()
-    console.log(randomBoxItem)
     return (
         <>
             <Container>
@@ -49,26 +42,11 @@ const CardShoes: React.FC<PropsCard> = ({
                             <Text bold>{nftName}</Text>
                         </ContainerTags>
                     </Flex>
-                    <Flex width="100%" justifyContent="space-between" mt="10px">
-                        <Flex alignItems="center">
-                            <Flex width="30px">
-                                <StarIcon />
-                            </Flex>
-                            <CustomText ml="5px">Speed</CustomText>
-                        </Flex>
-                        <CustomText>{speed} cm/s</CustomText>
-                    </Flex>
-                    <Flex width="100%" justifyContent="space-between" mt="10px">
-                        <Flex alignItems="center">
-                            <Flex width="30px">
-                                <StarIcon />
-                            </Flex>
-                            <CustomText ml="5px">{t("Quantity")}</CustomText>
-                        </Flex>
-                        <CustomText>{quantity} {t("NFT(s)")}</CustomText>
+                    <Flex marginTop="10px" width="100%" >
+                        <Text>{ }</Text>
                     </Flex>
                 </Flex>
-                <Button onClick={randomBoxItem}>BUY</Button>
+                <Button>BUY</Button>
             </Container>
         </>
     );

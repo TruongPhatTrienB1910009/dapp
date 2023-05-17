@@ -11,219 +11,31 @@ interface Props {
 }
 const ListShoes: React.FC<Props> = () => {
 
-    // const currentItems = [
-    //     {
-    //         token_id: 1,
-    //         name: "FlyingDoge NFT - Testnet",
-    //     
-    //         image: "/images/luckybox/box0.png",
-    //         comfy: "5",
-    //         efficiency: "5",
-    //         luck: "5",
-    //         sturdence_remain: "5",
-    //         nftType: "5",
-    //         energy_mining: "5",
-    //         mininghydro: "5",
-    //         energy: "5",
-    //         sneaker_config: [
-    //             {
-    //                 value: 100
-    //             },
-    //             {
-    //                 value: 100
-    //             }
-    //         ],
-    //         sturdence: 7,
-    //         quantity: 0,
-    //         type: "3"
-    //     },
-    // ]
-
-    // const { account, chainId } = useActiveWeb3React()
-    // How to get data from blockchain <<<< 
-    // const { nftBalance } = FetchDataNft(account, chainId)
-    // currentItems[0].quantity = nftBalance;
-
-    const Items = [
-        {
-            token_id: 1,
-            name: "FlyingDoge NFT - Testnet",
-            image: "/images/luckybox/box4.png",
-            comfy: "5",
-            efficiency: "5",
-            luck: "5",
-            sturdence_remain: "5",
-            nftType: "5",
-            energy_mining: "5",
-            mininghydro: "5",
-            energy: "5",
-            sneaker_config: [
-                {
-                    value: 100
-                },
-                {
-                    value: 100
-                }
-            ],
-            sturdence: 7,
-            quantity: 0,
-            type: "3"
-        },
-        {
-            token_id: 2,
-            name: "FlyingDoge NFT - Testnet",
-            image: "/images/luckybox/box5.png",
-            comfy: "5",
-            efficiency: "5",
-            luck: "5",
-            sturdence_remain: "5",
-            nftType: "5",
-            energy_mining: "5",
-            mininghydro: "5",
-            energy: "5",
-            sneaker_config: [
-                {
-                    value: 100
-                },
-                {
-                    value: 100
-                }
-            ],
-            sturdence: 7,
-            quantity: 0,
-            type: "3"
-        },
-        {
-            token_id: 3,
-            name: "FlyingDoge NFT - Testnet",
-            image: "/images/luckybox/box6.png",
-            comfy: "5",
-            efficiency: "5",
-            luck: "5",
-            sturdence_remain: "5",
-            nftType: "5",
-            energy_mining: "5",
-            mininghydro: "5",
-            energy: "5",
-            sneaker_config: [
-                {
-                    value: 100
-                },
-                {
-                    value: 100
-                }
-            ],
-            sturdence: 7,
-            quantity: 0,
-            type: "3"
-        },
-        {
-            token_id: 4,
-            name: "FlyingDoge NFT - Testnet",
-            image: "/images/luckybox/box0.png",
-            comfy: "5",
-            efficiency: "5",
-            luck: "5",
-            sturdence_remain: "5",
-            nftType: "5",
-            energy_mining: "5",
-            mininghydro: "5",
-            energy: "5",
-            sneaker_config: [
-                {
-                    value: 100
-                },
-                {
-                    value: 100
-                }
-            ],
-            sturdence: 7,
-            quantity: 0,
-            type: "3"
-        },
-    ]
-
     const currentItems = [
         {
-            token_id: 0,
-            name: "FlyingDoge NFT - Testnet",
+            id: 0,
+            name: "Silver Box",
             image: "/images/luckybox/box0.png",
-            comfy: "0",
-            efficiency: "0",
-            luck: "0",
-            sturdence_remain: "0",
-            nftType: "0",
-            energy_mining: "0",
-            mininghydro: "0",
-            energy: "0",
-            sneaker_config: [
-                {
-                    value: 0
-                },
-                {
-                    value: 0
-                }
-            ],
-            sturdence: 0,
-            quantity: 0,
-            type: ""
+            nftType: 0,
         },
         {
-            token_id: 1,
-            name: "FlyingDoge NFT - Testnet",
+            id: 1,
+            name: "Gold Box",
             image: "/images/luckybox/box1.png",
-            comfy: "0",
-            efficiency: "0",
-            luck: "0",
-            sturdence_remain: "0",
-            nftType: "0",
-            energy_mining: "0",
-            mininghydro: "0",
-            energy: "0",
-            sneaker_config: [
-                {
-                    value: 0
-                },
-                {
-                    value: 0
-                }
-            ],
-            sturdence: 0,
-            quantity: 0,
-            type: ""
+            nftType: 1,
         },
         {
-            token_id: 2,
-            name: "FlyingDoge NFT - Testnet",
+            id: 2,
+            name: "Diamond Box",
             image: "/images/luckybox/box2.png",
-            comfy: "0",
-            efficiency: "0",
-            luck: "0",
-            sturdence_remain: "0",
-            nftType: "0",
-            energy_mining: "0",
-            mininghydro: "0",
-            energy: "0",
-            sneaker_config: [
-                {
-                    value: 0
-                },
-                {
-                    value: 0
-                }
-            ],
-            sturdence: 0,
-            quantity: 0,
-            type: ""
-        }
+            nftType: 2,
+        },
     ]
 
-    const randomBoxItem = () => {
-        // const { index } = props;
-        // const itemId = Math.floor(Math.random() * 4) + 1;
-        console.log('aaa');
-
-    }
+    const { account, chainId } = useActiveWeb3React()
+    // How to get data from blockchain <<<< 
+    const { nftBalance } = FetchDataNft(account, chainId)
+    currentItems[0].quantity = nftBalance;
 
 
     return (
@@ -231,16 +43,13 @@ const ListShoes: React.FC<Props> = () => {
             <CsFlex>
                 {currentItems?.length !== 0 ?
                     <>
-                        {currentItems?.map((item, index) => {
+                        {currentItems?.map((item) => {
                             return (
                                 <CardShoes
                                     ID={item.token_id}
                                     nftName={item.name}
                                     nftImage={item.image}
                                     nftType={item.type}
-                                    speed={item.sneaker_config[1].value}
-                                    quantity={item.quantity}
-                                    randomBoxItem={randomBoxItem}
                                 />
                             )
                         })}

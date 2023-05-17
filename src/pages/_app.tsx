@@ -84,7 +84,7 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
           // eslint-disable-next-line @next/next/no-sync-scripts
           <script src="https://public.bnbstatic.com/static/js/mp-webview-sdk/webview-v1.0.0.min.js" id="mp-webview" />
         )}
-        
+
       </Head>
       <Providers store={store}>
         <Blocklist>
@@ -141,7 +141,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   // Use the layout defined at the page level, if available
   const Layout = Component.Layout || Fragment
   const ShowMenu = Component.mp ? Fragment : Menu
-  
+
   return (
     <ProductionErrorBoundary>
       <ShowMenu>
@@ -151,7 +151,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       </ShowMenu>
       <EasterEgg iterations={2} />
       <ToastListener />
-      <ModalAlertAddress/>
+      <ModalAlertAddress />
       <FixedSubgraphHealthIndicator />
       <NetworkModal pageSupportedChains={Component.chains} />
       <TransactionsDetailModal />
