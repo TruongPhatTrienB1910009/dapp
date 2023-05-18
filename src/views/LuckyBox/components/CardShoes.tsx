@@ -20,16 +20,23 @@ interface PropsCard {
     ID?: number;
     nftName?: string
     nftImage?: string
+    nftPrice?: any
+    nftDesc?: any
     nftType?: string
+    onBuyNft?: any
+    handleApprove?: any
 }
 
 const CardShoes: React.FC<PropsCard> = ({
     // ID,
     nftName,
     nftImage,
-    nftType
+    nftType,
+    nftPrice,
+    nftDesc,
+    onBuyNft,
+    handleApprove
 }) => {
-    const { t } = useTranslation()
     return (
         <>
             <Container>
@@ -37,16 +44,15 @@ const CardShoes: React.FC<PropsCard> = ({
                     <CustomCard background={renderBGCard(Number(nftType))}>
                         <ImgShoes src={nftImage} alt='Image Box' />
                     </CustomCard>
-                    <Flex marginTop="10px" width="100%" justifyContent="space-between" alignItems="center" >
-                        <ContainerTags background={renderBGCard(Number(nftType))}>
-                            <Text bold>{nftName}</Text>
-                        </ContainerTags>
-                    </Flex>
-                    <Flex marginTop="10px" width="100%" >
-                        <Text>{ }</Text>
-                    </Flex>
+                    <CustomText >
+                        {nftName}
+                    </CustomText>
+                    <CustomText >
+                        {nftDesc}
+                    </CustomText>
                 </Flex>
-                <Button>BUY</Button>
+                <Button onClick={handleApprove}>Approve</Button>
+                <Button onClick={onBuyNft}>{nftPrice}</Button>
             </Container>
         </>
     );
@@ -85,6 +91,12 @@ const ImgShoes = styled.img`
 `
 const CustomText = styled(Text)`
     color:#000000;
+    display: flex;
+    align-item: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px
 `
 const ContainerRow = styled.div`
     align-items: center;

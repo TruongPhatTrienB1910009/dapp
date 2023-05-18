@@ -66,9 +66,9 @@ export default {
     56: '0x0726a8C8206b9eC0AfB788df5adb36a8AEDB13c2',
     97: '0xBab5d3B6bA24E185f216419f3ba07f03984bF983',
   },
-  votingProposals:{
-    97:"0xfca9151751cc0210db5bc310ba6530715b6e04e5",
-    56:"0xac9ae9ff776b36af7746d2a759db25f04ef311ab"
+  votingProposals: {
+    97: "0xfca9151751cc0210db5bc310ba6530715b6e04e5",
+    56: "0xac9ae9ff776b36af7746d2a759db25f04ef311ab"
   },
   poolRun: {
     97: '0x2cb575f98cf1900061df48666b46aa1341aa6db4',
@@ -79,9 +79,9 @@ export default {
     97: '0x65E9Daeb177E0096F4fca795683D18143E58Bafd',
     56: '0x36e75C5a3efFb2945785AeD307AA12E5dea51cF3'
   },
-  runMarketplaceMultiByBox:{
-      97: '0xdc9f52cc9bdd1ffcfd9292dbd9dd844047234d0f',
-      56: ''
+  runMarketplaceMultiByBox: {
+    97: '0xdc9f52cc9bdd1ffcfd9292dbd9dd844047234d0f',
+    56: ''
   },
   withdrawNftRun: {
     97: '0xd73f571EaC89026d9AEC4921fc1338610A1af491',
@@ -91,7 +91,7 @@ export default {
     97: '0x2cb83a47f716b086dab25cce88f064e9305938d9',
     56: '0xbc3150a7bffdc8caee910a353ce3b64410e2b964'
   },
-  poolStore1:{
+  poolStore1: {
     97: '0x0211eca9f5076f20243e7c396f05e87df6ba889c',
     56: '0xdf168fbfba1ac83b4a0873fc43d80e71b4e4479f'
   },
@@ -99,7 +99,7 @@ export default {
     97: '0x4eb52d6d798813ac3a4fb085688f79292dbbc59a',
     56: '0xf0cf8ab8320984c4ebf9c43c859153cabacb144b'
   },
-  poolStore2:{
+  poolStore2: {
     97: '0xb8dc7826a15fa24d5d7a995e22f7ddbfada7e697',
     56: '0x3a98833b20dee5fa22dfb77d1f30ae8ef63c9d05'
   },
@@ -116,5 +116,14 @@ export default {
     1945: '',
     1975: '',
     1116: '0x9886379540a30FF39b610d8f7284321a0E1737Ea'
+  },
+
+  // THEM MANG VAO DAY
+  coreMarketPlace: {
+    56: '',
+    97: '0x5DabAC878E394C7c6fBE1860F8dAC12A5E2A821e',
+    1945: '',
+    1975: '',
+    1116: '0x6Cab4A1c5ec3C8ab63ff8C4e5cb802207745471e'
   },
 }

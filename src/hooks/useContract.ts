@@ -47,6 +47,7 @@ import mysteryBoxAbi from "../config/abi/mysteryBox.json"
 import marketMultiBuyAbi from "../config/abi/multiBuyBox.json"
 import mysteryBoxAbiONUS from "../config/abi/mysteryBoxONUS.json"
 import corePresaleAbi from "../config/abi/corePresaleAbi.json"
+import marketPlaceAbi from "../config/abi/marketPlaceAbi.json"
 /**
  * Helper hooks to get specific contracts (by ABI)
  */
@@ -225,4 +226,9 @@ export function useMysteryBoxContractONUS(mysteryBoxAddress?: string, withSigner
 
 export function useCorePresale(presaleAdress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(presaleAdress, corePresaleAbi, withSignerIfPossible)
+}
+
+// add 
+export function useCoreMarketPlace(marketPlaceAdress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(marketPlaceAdress, marketPlaceAbi, withSignerIfPossible)
 }

@@ -8,14 +8,14 @@ import { useCallback, useState } from 'react'
 import { getAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
-export const useClaimPresale = (chainId:number, onRefresh) => {
+export const useClaimPresale = (chainId: number, onRefresh) => {
   const [requestedClaim, setRequestClaim] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { callWithMarketGasPrice } = useCallWithMarketGasPrice()
-  const [ isClose, setClose ] = useState(false)
+  const [isClose, setClose] = useState(false)
   const { t } = useTranslation()
   const presaleContract = useCorePresale(getAddress(contract.corePresale, chainId));
-  const [ pendingClaim, setPendingClaim ] = useState(false)
+  const [pendingClaim, setPendingClaim] = useState(false)
   const handleClaim = useCallback(async () => {
     setPendingClaim(true)
     try {
@@ -23,8 +23,8 @@ export const useClaimPresale = (chainId:number, onRefresh) => {
       const receipt = await tx.wait()
       if (receipt.status) {
         toastSuccess(
-            t('Successfully claim'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash}/>
+          t('Successfully claim'),
+          <ToastDescriptionWithTx txHash={receipt.transactionHash} />
         )
         setClose(true)
         setRequestClaim(true)
@@ -39,33 +39,33 @@ export const useClaimPresale = (chainId:number, onRefresh) => {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
     } finally {
       setPendingClaim(false)
-      
+
     }
   }, [callWithMarketGasPrice, presaleContract, toastSuccess, t, toastError])
- 
+
 
   return { handleClaim, requestedClaim, pendingClaim, isClose }
 }
 
 
 
-export const useBuyPresale = (chainId:number, onRefresh) => {
+export const useBuyPresale = (chainId: number, onRefresh) => {
   const [requestedBuy, setRequestBuy] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { callWithMarketGasPrice } = useCallWithMarketGasPrice()
-  const [ isCloseBuy, setClose ] = useState(false)
+  const [isCloseBuy, setClose] = useState(false)
   const { t } = useTranslation()
   const presaleContract = useCorePresale(getAddress(contract.corePresale, chainId));
-  const [ pendingBuy, setPendingBuy ] = useState(false)
+  const [pendingBuy, setPendingBuy] = useState(false)
   const handleBuy = useCallback(async () => {
     setPendingBuy(true)
     try {
-      const tx = await callWithMarketGasPrice(presaleContract, 'buyPresale', [], {value: new BigNumber('100000000000000000').toString() })
+      const tx = await callWithMarketGasPrice(presaleContract, 'buyPresale', [], { value: new BigNumber('100000000000000000').toString() })
       const receipt = await tx.wait()
       if (receipt.status) {
         toastSuccess(
-            t('Successfully buy'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash}/>
+          t('Successfully buy'),
+          <ToastDescriptionWithTx txHash={receipt.transactionHash} />
         )
         setClose(true)
         setRequestBuy(true)
@@ -80,10 +80,10 @@ export const useBuyPresale = (chainId:number, onRefresh) => {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
     } finally {
       setPendingBuy(false)
-      
+
     }
   }, [callWithMarketGasPrice, presaleContract, toastSuccess, t, toastError])
- 
+
 
   return { handleBuy, requestedBuy, pendingBuy, isCloseBuy }
 }

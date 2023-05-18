@@ -1,5 +1,4 @@
-/* eslint-disable func-names */
-const jsonInterface = [
+[
     {
         "inputs": [],
         "stateMutability": "nonpayable",
@@ -714,48 +713,3 @@ const jsonInterface = [
         "type": "function"
     }
 ]
-const address = "0x6Cab4A1c5ec3C8ab63ff8C4e5cb802207745471e";
-const Contract = require('web3-eth-contract');
-
-const vercelServer = 'https://nft-marketplace-nextjs-roan.vercel.app/';
-
-Contract.setProvider('https://rpc-core.icecreamswap.com');
-
-const contract = new Contract(jsonInterface, address);
-
-const getListPrice = async () => {
-    const listPrice = [];
-    for (let i = 0; i < 3; i++) {
-        // eslint-disable-next-line no-await-in-loop
-        let data = await contract.methods.NFT_PRICE(i).call();
-        data /= 1e18;
-        // eslint-disable-next-line no-unused-expressions
-        listPrice.push(data);
-    }
-
-    return listPrice;
-}
-
-const Web3 = require('web3')
-
-const web3 = new Web3(window.ethereum)
-
-const defaultAcount = "0xc3b9C379DDF74d37aF793baDA77D76dE9F51eF3A";
-web3.eth.defaultAcount = defaultAcount;
-const buyNft = () => {
-    contract.methods.buyItem(0).send({
-        from: web3.eth.defaultAcount
-    })
-        .on('transactionHash', (hash) => {
-            console.log('Transaction hash:', hash);
-        })
-        .on('confirmation', (confirmationNumber, receipt) => {
-            console.log('Confirmation number:', confirmationNumber);
-            console.log('Receipt:', receipt);
-        })
-        .on('error', (error) => {
-            console.error(error);
-        });
-}
-
-export { getListPrice, buyNft };

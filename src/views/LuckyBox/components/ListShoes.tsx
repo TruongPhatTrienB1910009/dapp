@@ -1,41 +1,55 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { ChainId } from '@pancakeswap/sdk'
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import { FetchDataNft } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
+import { useBuyNFT } from "../hook/useBuyNft";
+import { useApprove } from "../hook/useApprove";
 
 interface Props {
     filter?: number
     query?: string
 }
 const ListShoes: React.FC<Props> = () => {
+    const { account, chainId } = useActiveWeb3React();
+    const [refresh, setRefresh] = useState(0)
+    function onRefresh(newValue: number) {
+        setRefresh(newValue)
+    }
+    const [balance, setBalance] = useState('10')
+
+    const { handleApprove } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
+    const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
 
     const currentItems = [
         {
             id: 0,
             name: "Silver Box",
             image: "/images/luckybox/box0.png",
-            nftType: 0,
+            desc: "Silver Box #1",
+            price: 1
         },
         {
             id: 1,
             name: "Gold Box",
             image: "/images/luckybox/box1.png",
-            nftType: 1,
+            desc: "Gold Box #2",
+            price: 2
         },
         {
             id: 2,
-            name: "Diamond Box",
+            name: "Ruby Box",
             image: "/images/luckybox/box2.png",
-            nftType: 2,
+            desc: "Ruby Box #3",
+            price: 3
         },
     ]
 
-    const { account, chainId } = useActiveWeb3React()
-    // How to get data from blockchain <<<< 
-    const { nftBalance } = FetchDataNft(account, chainId)
-    currentItems[0].quantity = nftBalance;
+    const onHandleApprove = () => {
+        handleApprove();
+    }
 
 
     return (
@@ -46,10 +60,13 @@ const ListShoes: React.FC<Props> = () => {
                         {currentItems?.map((item) => {
                             return (
                                 <CardShoes
-                                    ID={item.token_id}
+                                    key={item.id}
                                     nftName={item.name}
                                     nftImage={item.image}
-                                    nftType={item.type}
+                                    nftPrice={item.price}
+                                    nftDesc={item.desc}
+                                    onBuyNft={handleBuy}
+                                    handleApprove={onHandleApprove}
                                 />
                             )
                         })}
