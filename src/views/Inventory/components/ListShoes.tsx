@@ -1,66 +1,78 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { FetchDataNft } from "../hook/fetchDataMysteryBox"
+import { FetchDataNft, FetchTokenOfOwnerByIndex } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 
 interface Props {
-    filter?:number
+    filter?: number
     query?: string
 }
-const ListShoes:React.FC<Props> = () => {
+const ListShoes: React.FC<Props> = () => {
 
-    const currentItems = [
-        {
-            token_id: 1,
-            name: "FlyingDoge NFT - Testnet",
-            image: "https://airdrop.coredoge.xyz/DogeNFT.png",
-            comfy: "5",
-            efficiency: "5",
-            luck: "5",
-            sturdence_remain: "5",
-            nftType: "5",
-            energy_mining: "5",
-            mininghydro: "5",
-            energy: "5",
-            sneaker_config: [
-                {
-                    value: 100
-                },
-                {
-                    value: 100
-                }
-            ],
-            sturdence: 7,
-            quantity: 0,
-            type: "3"
-        }
-    ]
-    
+    // eslint-disable-next-line prefer-const
+    let currentItems = {
+        token_id: 0,
+        name: "Silver Box",
+        image: "/images/luckybox/box0.png",
+        comfy: "5",
+        efficiency: "5",
+        luck: "5",
+        sturdence_remain: "5",
+        nftType: "5",
+        energy_mining: "5",
+        mininghydro: "5",
+        energy: "5",
+        sneaker_config: [
+            {
+                value: 200
+            },
+            {
+                value: 200
+            }
+        ],
+        sturdence: 7,
+        quantity: 0,
+        type: "3"
+    }
+
     const { account, chainId } = useActiveWeb3React()
     const { nftBalance } = FetchDataNft(account, chainId)
-    currentItems[0].quantity = nftBalance;
+    const { tokenOfOwnerByIndex } = FetchTokenOfOwnerByIndex(account, nftBalance, chainId);
+    const [listCurrentItems, setListCurrentItems] = useState([]);
+    useEffect(() => {
+        console.log("LIST SHOES", tokenOfOwnerByIndex)
+        const arr = []
+        for (let i = 0; i < nftBalance; i++) {
+            // let obj = { ...currentItems }
+            arr.push({ ...currentItems })
+            arr[i].token_id = tokenOfOwnerByIndex[i]
+        }
+        setListCurrentItems(arr);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nftBalance, tokenOfOwnerByIndex])
 
     return (
         <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
             <CsFlex>
-                {currentItems?.length !== 0 ?
+                {listCurrentItems?.length !== 0 ?
                     <>
-                        {currentItems?.map((item) => {
+                        {listCurrentItems?.map((item, index) => {
                             return (
-                                <CardShoes 
+                                <CardShoes
+                                    key={index}
                                     ID={item.token_id}
                                     nftName={item.name}
                                     nftImage={item.image}
                                     nftType={item.type}
                                     speed={item.sneaker_config[1].value}
                                     quantity={item.quantity}
-                                /> 
+                                />
                             )
                         })}
                     </>
-                :
+                    :
                     <Flex width='100%' justifyContent='center'>
                         <Text mt="2rem">No Data</Text>
                     </Flex>
@@ -114,8 +126,8 @@ const CsFlex = styled(Flex)`
     width: 100%;
     justify-content: flex-start;
     flex-wrap: wrap;
-    column-gap: 24px;
-    padding: 0px 60px;
+    column-gap: 80px;
+    padding: 0px 20px;
 @media screen and (min-width: 769px) and (max-width: 1024px){
     width: 80%;
     justify-content: space-between;

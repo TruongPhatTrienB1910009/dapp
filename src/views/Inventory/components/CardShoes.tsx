@@ -1,4 +1,5 @@
-import { Flex,     
+import {
+    Flex,
     EfficiencyIcon,
     LuckIcon,
     DurabilityIcon,
@@ -7,60 +8,61 @@ import { Flex,
     StarIcon,
     CupIcon,
     SturdanceIcon,
-    ProgressShoes, 
-    Text } from "@pancakeswap/uikit";
+    ProgressShoes,
+    Text
+} from "@pancakeswap/uikit";
 import { useTranslation } from "@pancakeswap/localization";
 import React from 'react';
 import styled from 'styled-components';
 import { renderBGCard } from "utils/renderBGCard";
 
-interface PropsCard{
+interface PropsCard {
     ID?: number;
-    nftName?:string
-    nftImage?:string
-    nftType?:string
-    speed?:number
-    quantity?:number
+    nftName?: string
+    nftImage?: string
+    nftType?: string
+    speed?: number
+    quantity?: number
 }
 
-const CardShoes:React.FC<PropsCard> = ({
-    // ID,
+const CardShoes: React.FC<PropsCard> = ({
+    ID,
     nftName,
     nftImage,
     nftType,
     speed,
     quantity
 }) => {
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     return (
         <Container>
             <Flex width="100%" flexDirection="column">
                 <CustomCard background={renderBGCard(Number(nftType))}>
-                    <ImgShoes src={nftImage} alt='Image Box'/>
+                    <ImgShoes src={nftImage} alt='Image Box' />
                 </CustomCard>
                 <Flex marginTop="10px" width="100%" justifyContent="space-between" alignItems="center" >
                     <ContainerTags background={renderBGCard(Number(nftType))}>
-                        <Text bold>{nftName}</Text>
+                        <Text bold>{nftName} #{ID}</Text>
                     </ContainerTags>
                 </Flex>
-                <Flex width="100%" justifyContent="space-between" mt="10px">
+                {/* <Flex width="100%" justifyContent="space-between" mt="10px">
                     <Flex alignItems="center">
                         <Flex width="30px">
-                            <StarIcon/>
+                            <StarIcon />
                         </Flex>
                         <CustomText ml="5px">Speed</CustomText>
                     </Flex>
                     <CustomText>{speed} cm/s</CustomText>
-                </Flex>
-                <Flex width="100%" justifyContent="space-between" mt="10px">
+                </Flex> */}
+                {/* <Flex width="100%" justifyContent="space-between" mt="10px">
                     <Flex alignItems="center">
                         <Flex width="30px">
-                            <StarIcon/>
+                            <StarIcon />
                         </Flex>
                         <CustomText ml="5px">{t("Quantity")}</CustomText>
                     </Flex>
                     <CustomText>{quantity} {t("NFT(s)")}</CustomText>
-                </Flex>
+                </Flex> */}
             </Flex>
         </Container>
     );
@@ -68,8 +70,8 @@ const CardShoes:React.FC<PropsCard> = ({
 
 export default CardShoes;
 
-const Container = styled.div<{isHaving?:boolean, background?:string}>`
-    width: 368px;
+const Container = styled.div<{ isHaving?: boolean, background?: string }>`
+    width: 310px;
     height: auto;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
@@ -83,7 +85,7 @@ const Container = styled.div<{isHaving?:boolean, background?:string}>`
     background-color: #8BC6EC;
     background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
 `
-const CustomCard = styled.div<{background?:string}>`
+const CustomCard = styled.div<{ background?: string }>`
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -112,11 +114,11 @@ const ContainerRow = styled.div`
 const ContainerProgress = styled.div`
     width:100%;
 `
-const ContainerTags = styled(Flex)<{background?:string}>`
+const ContainerTags = styled(Flex) <{ background?: string }>`
     border-radius: 6px;
     width: 100%;
     height: auto;
-    justify-content: start;
+    justify-content: center;
     padding:6px 0px 6px 10px;
     align-items: center;
     margin-bottom:10px;
