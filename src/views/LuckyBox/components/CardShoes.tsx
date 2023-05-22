@@ -23,18 +23,18 @@ interface PropsCard {
     nftPrice?: any
     nftDesc?: any
     nftType?: string
-    onBuyNft?: any
+    onHandleBuyNft?: any
     handleApprove?: any
 }
 
 const CardShoes: React.FC<PropsCard> = ({
-    // ID,
+    ID,
     nftName,
     nftImage,
     nftType,
     nftPrice,
     nftDesc,
-    onBuyNft,
+    onHandleBuyNft,
     handleApprove
 }) => {
     return (
@@ -52,7 +52,7 @@ const CardShoes: React.FC<PropsCard> = ({
                     </CustomText>
                 </Flex>
                 <Button onClick={handleApprove}>Approve</Button>
-                <Button onClick={onBuyNft}>{nftPrice}</Button>
+                <Button onClick={() => { onHandleBuyNft({ ID }) }}>{nftPrice}</Button>
             </Container>
         </>
     );

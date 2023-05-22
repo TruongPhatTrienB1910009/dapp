@@ -19,8 +19,7 @@ export const useBuyNFT = (chainId: number, onRefresh, balance) => {
   const handleBuy = useCallback(async () => {
     setPendingBuy(true)
     try {
-
-      const tx = await callWithMarketGasPrice(marketplaceContract, 'buyItem', [1])
+      const tx = await callWithMarketGasPrice(marketplaceContract, 'buyItem', [balance])
       const receipt = await tx.wait()
       if (receipt.status) {
         toastSuccess(

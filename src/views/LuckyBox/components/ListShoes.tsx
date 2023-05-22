@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ChainId } from '@pancakeswap/sdk'
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { FetchDataNft } from "../hook/fetchDataMysteryBox"
+import { FetchDataNft, GetPriceNfts } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 import { useBuyNFT } from "../hook/useBuyNft";
 import { useApprove } from "../hook/useApprove";
@@ -18,10 +19,11 @@ const ListShoes: React.FC<Props> = () => {
     function onRefresh(newValue: number) {
         setRefresh(newValue)
     }
-    const [balance, setBalance] = useState('10')
+    const [balance, setBalance] = useState(0)
 
     const { handleApprove } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
     const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
+    const { ListPrices } = GetPriceNfts(chainId);
 
     const currentItems = [
         {
@@ -51,6 +53,15 @@ const ListShoes: React.FC<Props> = () => {
         handleApprove();
     }
 
+    const HandleBuyNft = ({ ID }) => {
+        setBalance(ID);
+        handleBuy();
+    }
+
+    useEffect(() => {
+        console.log(ListPrices);
+    }, [])
+
 
     return (
         <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
@@ -60,12 +71,13 @@ const ListShoes: React.FC<Props> = () => {
                         {currentItems?.map((item) => {
                             return (
                                 <CardShoes
+                                    ID={item.id}
                                     key={item.id}
                                     nftName={item.name}
                                     nftImage={item.image}
                                     nftPrice={item.price}
                                     nftDesc={item.desc}
-                                    onBuyNft={handleBuy}
+                                    onHandleBuyNft={HandleBuyNft}
                                     handleApprove={onHandleApprove}
                                 />
                             )
