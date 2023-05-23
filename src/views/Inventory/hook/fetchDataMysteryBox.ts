@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { getAddress } from "utils/addressHelpers";
 import contracts from "config/constants/contracts";
 import multicall from "utils/multicall";

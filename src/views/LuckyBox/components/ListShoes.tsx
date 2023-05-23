@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ChainId } from '@pancakeswap/sdk'
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { FetchDataNft, GetPriceNfts } from "../hook/fetchDataMysteryBox"
+import { FetchDataNft, GetAllowance, GetPriceNfts, SetPricesNft, GetBalanceOfToken } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 import { useBuyNFT } from "../hook/useBuyNft";
 import { useApprove } from "../hook/useApprove";
@@ -20,47 +20,32 @@ const ListShoes: React.FC<Props> = () => {
         setRefresh(newValue)
     }
     const [balance, setBalance] = useState(0)
-
     const { handleApprove } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
     const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
     const { ListPrices } = GetPriceNfts(chainId);
+    const { Items } = SetPricesNft(ListPrices);
+    const { allowance } = GetAllowance(account, chainId);
+    const { balanceOfToken } = GetBalanceOfToken(account, chainId);
 
-    const currentItems = [
-        {
-            id: 0,
-            name: "Silver Box",
-            image: "/images/luckybox/box0.png",
-            desc: "Silver Box #1",
-            price: 1
-        },
-        {
-            id: 1,
-            name: "Gold Box",
-            image: "/images/luckybox/box1.png",
-            desc: "Gold Box #2",
-            price: 2
-        },
-        {
-            id: 2,
-            name: "Ruby Box",
-            image: "/images/luckybox/box2.png",
-            desc: "Ruby Box #3",
-            price: 3
-        },
-    ]
+
+    const [currentItems, setCurrentItems] = useState([...Items]);
+
 
     const onHandleApprove = () => {
         handleApprove();
     }
 
-    const HandleBuyNft = ({ ID }) => {
+    const HandleBuyNft = ({ ID, nftPrice }) => {
+        console.log("nftPrice", nftPrice)
         setBalance(ID);
         handleBuy();
     }
 
     useEffect(() => {
-        console.log(ListPrices);
-    }, [])
+        console.log(allowance)
+        console.log(balanceOfToken)
+        setCurrentItems([...Items])
+    }, [ListPrices, allowance, balanceOfToken])
 
 
     return (
@@ -71,7 +56,9 @@ const ListShoes: React.FC<Props> = () => {
                         {currentItems?.map((item) => {
                             return (
                                 <CardShoes
+                                    balanceOfToken={balanceOfToken}
                                     ID={item.id}
+                                    allowance={allowance}
                                     key={item.id}
                                     nftName={item.name}
                                     nftImage={item.image}

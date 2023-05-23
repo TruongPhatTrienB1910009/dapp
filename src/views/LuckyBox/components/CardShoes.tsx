@@ -15,6 +15,8 @@ import { useTranslation } from "@pancakeswap/localization";
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { renderBGCard } from "utils/renderBGCard";
+import { GetAllowance } from "../hook/fetchDataMysteryBox";
+
 
 interface PropsCard {
     ID?: number;
@@ -25,6 +27,8 @@ interface PropsCard {
     nftType?: string
     onHandleBuyNft?: any
     handleApprove?: any
+    allowance?: number
+    balanceOfToken?: number
 }
 
 const CardShoes: React.FC<PropsCard> = ({
@@ -35,7 +39,9 @@ const CardShoes: React.FC<PropsCard> = ({
     nftPrice,
     nftDesc,
     onHandleBuyNft,
-    handleApprove
+    handleApprove,
+    allowance,
+    balanceOfToken
 }) => {
     return (
         <>
@@ -51,8 +57,10 @@ const CardShoes: React.FC<PropsCard> = ({
                         {nftDesc}
                     </CustomText>
                 </Flex>
-                <Button onClick={handleApprove}>Approve</Button>
-                <Button onClick={() => { onHandleBuyNft({ ID }) }}>{nftPrice}</Button>
+                {
+                    (allowance < nftPrice && balanceOfToken >= nftPrice) ? (<Button onClick={handleApprove}>Approve</Button>) : ""
+                }
+                <Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice}</Button>
             </Container>
         </>
     );
