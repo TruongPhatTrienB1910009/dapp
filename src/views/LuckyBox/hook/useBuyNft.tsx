@@ -4,11 +4,12 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import contract from 'config/constants/contracts'
 import { useCallWithMarketGasPrice } from 'hooks/useCallWithMarketGasPrice'
 import { useCoreMarketPlace } from 'hooks/useContract'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
 export const useBuyNFT = (chainId: number, onRefresh, balance) => {
+  console.log('buyItem', balance)
   const [requestedBuy, setRequestBuy] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { callWithMarketGasPrice } = useCallWithMarketGasPrice()
@@ -16,33 +17,39 @@ export const useBuyNFT = (chainId: number, onRefresh, balance) => {
   const { t } = useTranslation()
   const marketplaceContract = useCoreMarketPlace(getAddress(contract.coreMarketPlace, chainId));
   const [pendingBuy, setPendingBuy] = useState(false)
-  const handleBuy = useCallback(async () => {
-    setPendingBuy(true)
-    try {
-      const tx = await callWithMarketGasPrice(marketplaceContract, 'buyItem', [balance])
-      const receipt = await tx.wait()
-      if (receipt.status) {
-        toastSuccess(
-          t('Successfully buy'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash} />
-        )
-        setClose(true)
-        setRequestBuy(true)
-        onRefresh(Date.now())
-      } else {
-        // user rejected tx or didn't go thru
+  useEffect(() => {
+    const handleBuy = async () => {
+      setPendingBuy(true)
+      try {
+        const tx = await callWithMarketGasPrice(marketplaceContract, 'buyItem', [balance])
+        const receipt = await tx.wait()
+        if (receipt.status) {
+          toastSuccess(
+            t(`Successfully buy ${balance}`),
+            <ToastDescriptionWithTx txHash={receipt.transactionHash} />
+          )
+          setClose(true)
+          setRequestBuy(true)
+          onRefresh(Date.now())
+        } else {
+          // user rejected tx or didn't go thru
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setRequestBuy(false)
+        }
+      } catch (e) {
+        console.error(e)
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-        setRequestBuy(false)
+      } finally {
+        setPendingBuy(false)
       }
-    } catch (e) {
-      console.error(e)
-      toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-    } finally {
-      setPendingBuy(false)
+    }
+
+    if (balance > -1) {
+      handleBuy();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callWithMarketGasPrice, marketplaceContract, balance, toastSuccess, t, toastError])
 
 
-  return { handleBuy, requestedBuy, pendingBuy, isCloseBuy }
+  return { requestedBuy, pendingBuy, isCloseBuy }
 }

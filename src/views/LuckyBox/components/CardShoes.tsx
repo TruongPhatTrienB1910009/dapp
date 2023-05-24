@@ -15,7 +15,6 @@ import { useTranslation } from "@pancakeswap/localization";
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { renderBGCard } from "utils/renderBGCard";
-import { GetAllowance } from "../hook/fetchDataMysteryBox";
 
 
 interface PropsCard {

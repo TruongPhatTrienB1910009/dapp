@@ -164,7 +164,6 @@ export const GetPriceNfts = (chainId: number) => {
 }
 
 export const SetPricesNft = (ListPrices: any) => {
-  console.log(ListPrices)
   const boxName = ["Silver", "Gold", "Ruby"];
   const Items = [];
 

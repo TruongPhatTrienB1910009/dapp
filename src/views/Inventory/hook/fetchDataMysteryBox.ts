@@ -65,7 +65,10 @@ export const FetchDataNft = (account: string, chainId: number) => {
         console.log(e)
       }
     }
-    fetchDataBox()
+    console.log(account)
+    if (account !== null) {
+      fetchDataBox();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
   return { nftBalance }
@@ -94,12 +97,12 @@ export const FetchTokenOfOwnerByIndex = (account: string, nftBalance: number, ch
 
       setTokenOfOwnerByIndex(arr);
     }
-    fetchDataBox();
+    if (account != null) {
+      fetchDataBox();
+    } else {
+      setTokenOfOwnerByIndex([])
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, nftBalance])
   return { tokenOfOwnerByIndex }
 }
-
-// export const getDataNftArray = (tokenArray: number[]) => {
-
-// }
