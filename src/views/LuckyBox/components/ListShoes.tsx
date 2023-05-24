@@ -27,7 +27,6 @@ const ListShoes: React.FC<Props> = () => {
     const { allowance } = GetAllowance(account, chainId);
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
 
-
     const [currentItems, setCurrentItems] = useState([...Items]);
 
 
@@ -64,6 +63,7 @@ const ListShoes: React.FC<Props> = () => {
                                     nftImage={item.image}
                                     nftPrice={item.price}
                                     nftDesc={item.desc}
+                                    nftType={item.nftType}
                                     onHandleBuyNft={HandleBuyNft}
                                     handleApprove={onHandleApprove}
                                 />

@@ -41,14 +41,14 @@ const ListShoes: React.FC<Props> = () => {
     const { nftBalance } = FetchDataNft(account, chainId)
     const { tokenOfOwnerByIndex } = FetchTokenOfOwnerByIndex(account, nftBalance, chainId);
     const [listCurrentItems, setListCurrentItems] = useState([]);
+
     useEffect(() => {
         console.log("LIST SHOES", tokenOfOwnerByIndex)
         const arr = []
-        for (let i = 0; i < nftBalance; i++) {
-            // let obj = { ...currentItems }
-            arr.push({ ...currentItems })
-            arr[i].token_id = tokenOfOwnerByIndex[i]
-        }
+        tokenOfOwnerByIndex.forEach((tokenId, index) => {
+            arr.push({ ...currentItems });
+            arr[index].token_id = tokenOfOwnerByIndex[index];
+        })
         setListCurrentItems(arr);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nftBalance, tokenOfOwnerByIndex])
@@ -58,10 +58,10 @@ const ListShoes: React.FC<Props> = () => {
             <CsFlex>
                 {listCurrentItems?.length !== 0 ?
                     <>
-                        {listCurrentItems?.map((item, index) => {
+                        {listCurrentItems?.map((item) => {
                             return (
                                 <CardShoes
-                                    key={index}
+                                    key={item.token_id}
                                     ID={item.token_id}
                                     nftName={item.name}
                                     nftImage={item.image}

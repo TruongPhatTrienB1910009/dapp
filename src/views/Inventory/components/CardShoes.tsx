@@ -35,9 +35,9 @@ const CardShoes: React.FC<PropsCard> = ({
 }) => {
     const { t } = useTranslation()
     return (
-        <Container>
+        <Container background={renderBGCard(Number(3))}>
             <Flex width="100%" flexDirection="column">
-                <CustomCard background={renderBGCard(Number(nftType))}>
+                <CustomCard>
                     <ImgShoes src={nftImage} alt='Image Box' />
                 </CustomCard>
                 <Flex marginTop="10px" width="100%" justifyContent="space-between" alignItems="center" >
@@ -45,24 +45,6 @@ const CardShoes: React.FC<PropsCard> = ({
                         <Text bold>{nftName} #{ID}</Text>
                     </ContainerTags>
                 </Flex>
-                {/* <Flex width="100%" justifyContent="space-between" mt="10px">
-                    <Flex alignItems="center">
-                        <Flex width="30px">
-                            <StarIcon />
-                        </Flex>
-                        <CustomText ml="5px">Speed</CustomText>
-                    </Flex>
-                    <CustomText>{speed} cm/s</CustomText>
-                </Flex> */}
-                {/* <Flex width="100%" justifyContent="space-between" mt="10px">
-                    <Flex alignItems="center">
-                        <Flex width="30px">
-                            <StarIcon />
-                        </Flex>
-                        <CustomText ml="5px">{t("Quantity")}</CustomText>
-                    </Flex>
-                    <CustomText>{quantity} {t("NFT(s)")}</CustomText>
-                </Flex> */}
             </Flex>
         </Container>
     );
@@ -82,8 +64,8 @@ const Container = styled.div<{ isHaving?: boolean, background?: string }>`
     @media screen and (max-width: 600px){
         padding: 15px 0px 15px 0px;
     }
-    background-color: #8BC6EC;
-    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+    background-color: ${(props) => (props.background)};
+    background-image: ${(props) => (props.background)};
 `
 const CustomCard = styled.div<{ background?: string }>`
     display: flex;

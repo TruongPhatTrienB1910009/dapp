@@ -45,9 +45,9 @@ const CardShoes: React.FC<PropsCard> = ({
 }) => {
     return (
         <>
-            <Container>
+            <Container background={renderBGCard(Number(nftType))}>
                 <Flex width="100%" flexDirection="column">
-                    <CustomCard background={renderBGCard(Number(nftType))}>
+                    <CustomCard>
                         <ImgShoes src={nftImage} alt='Image Box' />
                     </CustomCard>
                     <CustomText >
@@ -60,7 +60,7 @@ const CardShoes: React.FC<PropsCard> = ({
                 {
                     (allowance < nftPrice && balanceOfToken >= nftPrice) ? (<Button onClick={handleApprove}>Approve</Button>) : ""
                 }
-                <Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice}</Button>
+                <Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice} USDT</Button>
             </Container>
         </>
     );
@@ -69,19 +69,19 @@ const CardShoes: React.FC<PropsCard> = ({
 export default CardShoes;
 
 const Container = styled.div<{ isHaving?: boolean, background?: string }>`
-    width: 300px;
+    width: 310px;
     height: auto;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     @media screen and (max-width: 600px){
         padding: 15px 0px 15px 0px;
     }
-    background-color: #DBDFEA;
+    background-color: ${(props) => (props.background)};
+    background-image: ${(props) => (props.background)};
 `
 const CustomCard = styled.div<{ background?: string }>`
     display: flex;

@@ -99,3 +99,7 @@ export const FetchTokenOfOwnerByIndex = (account: string, nftBalance: number, ch
   }, [account, nftBalance])
   return { tokenOfOwnerByIndex }
 }
+
+// export const getDataNftArray = (tokenArray: number[]) => {
+
+// }

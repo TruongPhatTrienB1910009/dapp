@@ -176,7 +176,8 @@ export const SetPricesNft = (ListPrices: any) => {
           name: `${boxName[index]} Box`,
           image: `/images/luckybox/box${index}.png`,
           desc: 'Box NFT',
-          price: Price
+          price: Price,
+          nftType: index
         })
       })
     }
