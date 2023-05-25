@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { getAddress } from "utils/addressHelpers";
 import contracts from "config/constants/contracts";
@@ -110,16 +111,16 @@ export const FetDataNft = (ListTokenId: number[]) => {
   console.log("FetDataNft", ListTokenId)
   const [listNfts, setListNfts] = useState([]);
   useEffect(() => {
-    const getData = () => {
-      ListTokenId.forEach(async (id) => {
-        console.log(id)
-        const data = await fetch(`https://nft-marketplace-nextjs-roan.vercel.app/api/nft/${id}`);
-        const result = await data.json();
-        setListNfts((prev) => {
-          console.log(prev)
-          return [...prev, result];
-        })
+    const getData = async () => {
+      const promises = ListTokenId.map(async (id) => {
+        const res = await fetch(`https://nft-marketplace-nextjs-roan.vercel.app/api/nft/${id}`);
+        return res.json();
       })
+
+      const Nfts = await Promise.all(promises);
+
+      setListNfts(Nfts);
+      console.log(listNfts);
     }
 
     if (listNfts.length < ListTokenId.length) {

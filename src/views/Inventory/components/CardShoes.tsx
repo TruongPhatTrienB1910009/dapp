@@ -42,7 +42,7 @@ const CardShoes: React.FC<PropsCard> = ({
                 </CustomCard>
                 <Flex marginTop="10px" width="100%" justifyContent="space-between" alignItems="center" >
                     <ContainerTags background={renderBGCard(Number(nftType))}>
-                        <Text bold>{nftName} #{ID}</Text>
+                        <Text bold>{nftName}</Text>
                     </ContainerTags>
                 </Flex>
             </Flex>
