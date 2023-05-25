@@ -1,7 +1,7 @@
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import { useTranslation } from '@pancakeswap/localization'
-import { Flex, Heading  } from '@pancakeswap/uikit'
+import { Flex, Heading } from '@pancakeswap/uikit'
 import Container from 'components/Layout/Container'
 import Page from 'components/Layout/Page'
 import useTheme from 'hooks/useTheme'
@@ -21,13 +21,13 @@ const FlyingDoge = () => {
     const { t } = useTranslation()
     const { theme } = useTheme()
     const { account, chainId } = useActiveWeb3React()
-    const { nftBalance } = FetchDataNft(account, chainId)
-    
+    // const { nftBalance } = FetchDataNft(account, chainId)
+
     return (
         <>
             <Page>
                 <CustomContainer>
-                        <div dangerouslySetInnerHTML={iframe()} />
+                    <div dangerouslySetInnerHTML={iframe()} />
                 </CustomContainer>
             </Page>
         </>

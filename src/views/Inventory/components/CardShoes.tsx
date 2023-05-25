@@ -35,7 +35,7 @@ const CardShoes: React.FC<PropsCard> = ({
 }) => {
     const { t } = useTranslation()
     return (
-        <Container background={renderBGCard(Number(3))}>
+        <Container background={renderBGCard(Number(nftType))}>
             <Flex width="100%" flexDirection="column">
                 <CustomCard>
                     <ImgShoes src={nftImage} alt='Image Box' />

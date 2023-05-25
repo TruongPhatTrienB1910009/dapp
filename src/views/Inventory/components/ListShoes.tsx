@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { FetchDataNft, FetchTokenOfOwnerByIndex } from "../hook/fetchDataMysteryBox"
+import { GetNftBalance, FetchTokenOfOwnerByIndex, FetDataNft } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 
 interface Props {
@@ -38,20 +38,14 @@ const ListShoes: React.FC<Props> = () => {
     }
 
     const { account, chainId } = useActiveWeb3React()
-    const { nftBalance } = FetchDataNft(account, chainId)
+    const { nftBalance } = GetNftBalance(account, chainId)
     const { tokenOfOwnerByIndex } = FetchTokenOfOwnerByIndex(account, nftBalance, chainId);
+    const { listNfts } = FetDataNft(tokenOfOwnerByIndex);
     const [listCurrentItems, setListCurrentItems] = useState([]);
 
     useEffect(() => {
-        console.log("LIST SHOES", tokenOfOwnerByIndex)
-        const arr = []
-        tokenOfOwnerByIndex.forEach((tokenId, index) => {
-            arr.push({ ...currentItems });
-            arr[index].token_id = tokenOfOwnerByIndex[index];
-        })
-        setListCurrentItems(arr);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nftBalance, tokenOfOwnerByIndex])
+        setListCurrentItems(listNfts);
+    }, [nftBalance, tokenOfOwnerByIndex, listNfts])
 
     return (
         <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
@@ -65,8 +59,7 @@ const ListShoes: React.FC<Props> = () => {
                                     ID={item.token_id}
                                     nftName={item.name}
                                     nftImage={item.image}
-                                    nftType={item.type}
-                                    speed={item.sneaker_config[1].value}
+                                    nftType={item.nftType}
                                     quantity={item.quantity}
                                 />
                             )

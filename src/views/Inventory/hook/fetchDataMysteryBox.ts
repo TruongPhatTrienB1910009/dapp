@@ -44,10 +44,9 @@ export const FetchDataRunBoxIsOpen = (idMysteryBox, chainId: number) => {
   return { dataBox }
 }
 
-export const FetchDataNft = (account: string, chainId: number) => {
+export const GetNftBalance = (account: string, chainId: number) => {
   const [nftBalance, setNftBalance] = useState(0);
   useEffect(() => {
-    console.log("FetchDataNft")
     const fetchDataBox = async () => {
       try {
         const callBoxId = [
@@ -105,4 +104,29 @@ export const FetchTokenOfOwnerByIndex = (account: string, nftBalance: number, ch
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, nftBalance])
   return { tokenOfOwnerByIndex }
+}
+
+export const FetDataNft = (ListTokenId: number[]) => {
+  console.log("FetDataNft", ListTokenId)
+  const [listNfts, setListNfts] = useState([]);
+  useEffect(() => {
+    const getData = () => {
+      ListTokenId.forEach(async (id) => {
+        console.log(id)
+        const data = await fetch(`https://nft-marketplace-nextjs-roan.vercel.app/api/nft/${id}`);
+        const result = await data.json();
+        setListNfts((prev) => {
+          console.log(prev)
+          return [...prev, result];
+        })
+      })
+    }
+
+    if (listNfts.length < ListTokenId.length) {
+      getData();
+    }
+
+  }, [ListTokenId])
+
+  return { listNfts };
 }
