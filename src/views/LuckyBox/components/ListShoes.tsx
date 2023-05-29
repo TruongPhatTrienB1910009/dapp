@@ -25,7 +25,7 @@ const ListShoes: React.FC<Props> = () => {
     const { Items } = SetPricesNft(ListPrices);
     const { allowance } = GetAllowance(account, chainId);
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
-
+    const [totalAllowance, setTotalAllowance] = useState(allowance);
     const [currentItems, setCurrentItems] = useState([...Items]);
     useBuyNFT(chainId, onRefresh, balance);
 
@@ -47,7 +47,7 @@ const ListShoes: React.FC<Props> = () => {
         console.log(allowance)
         console.log(balanceOfToken)
         setCurrentItems([...Items])
-    }, [ListPrices, allowance, balanceOfToken])
+    }, [ListPrices, allowance, balanceOfToken, balanceOfToken])
 
 
     return (

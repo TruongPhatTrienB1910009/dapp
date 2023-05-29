@@ -6,7 +6,7 @@ export const renderBGCard = (boxType) => {
     } if (boxType === 1) {
         return "#EEE8AA"
     } if (boxType === 2) {
-        return "#D6EFFF"
+        return "#CC99FF"
     } if (boxType === 3) {
         return "#FFE8D4"
     } if (boxType === 4) {
