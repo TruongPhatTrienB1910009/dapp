@@ -1,41 +1,131 @@
+import ReactPaginate from 'react-paginate';
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import { GetNftBalance, FetchTokenOfOwnerByIndex, FetDataNft } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
+
+// Loading
+
+const Loading = () => {
+    const rotation = keyframes`
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    `;
+
+    const Spinner = styled.div`
+      border: 8px solid rgba(0, 0, 0, 0.1);
+      border-top-color: #07d669;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: ${rotation} 1s ease-in-out infinite;
+      margin: 0 auto;
+    `;
+
+    const Wrapper = styled.div`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `;
+
+    return (
+        <Wrapper>
+            <Spinner />
+        </Wrapper>
+    );
+};
+
+// Pagination
+
+function Items({ currentItems }) {
+    return (
+        <>
+            <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
+                <CsFlex>
+                    {currentItems?.length !== 0 ?
+                        <>
+                            {currentItems?.map((item) => {
+                                return (
+                                    <CardShoes
+                                        key={item.token_id}
+                                        ID={item.token_id}
+                                        nftName={item.name}
+                                        nftImage={item.image}
+                                        nftType={item.nftType}
+                                        quantity={item.quantity}
+                                    />
+                                )
+                            })}
+                        </>
+                        :
+                        <Flex width='100%' justifyContent='center'>
+                            <Text mt="2rem">
+                                <Loading />
+                            </Text>
+                        </Flex>
+                    }
+                </CsFlex>
+            </CsFlexContainer>
+        </>
+    );
+}
+
+function PaginatedItems({ itemsPerPage, listCurrentItems }) {
+    const [itemOffset, setItemOffset] = useState(0);
+
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    const currentItems = listCurrentItems.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(listCurrentItems.length / itemsPerPage);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % listCurrentItems.length;
+        console.log(
+            `User requested page number ${event.selected}, which is offset ${newOffset}`
+        );
+        setItemOffset(newOffset);
+    };
+
+    return (
+        <>
+            <Items currentItems={currentItems} />
+            <PaginationWrapper>
+                <ReactPaginate
+                    previousLabel="Previous"
+                    nextLabel="Next"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                />
+            </PaginationWrapper>
+        </>
+    );
+}
+
 
 interface Props {
     filter?: number
     query?: string
 }
 const ListShoes: React.FC<Props> = () => {
-
-    // eslint-disable-next-line prefer-const
-    let currentItems = {
-        token_id: 0,
-        name: "Silver Box",
-        image: "/images/luckybox/box0.png",
-        comfy: "5",
-        efficiency: "5",
-        luck: "5",
-        sturdence_remain: "5",
-        nftType: "5",
-        energy_mining: "5",
-        mininghydro: "5",
-        energy: "5",
-        sneaker_config: [
-            {
-                value: 200
-            },
-            {
-                value: 200
-            }
-        ],
-        sturdence: 7,
-        quantity: 0,
-        type: "3"
-    }
 
     const { account, chainId } = useActiveWeb3React()
     const { nftBalance } = GetNftBalance(account, chainId)
@@ -48,30 +138,8 @@ const ListShoes: React.FC<Props> = () => {
     }, [nftBalance, tokenOfOwnerByIndex, listNfts])
 
     return (
-        <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
-            <CsFlex>
-                {listCurrentItems?.length !== 0 ?
-                    <>
-                        {listCurrentItems?.map((item) => {
-                            return (
-                                <CardShoes
-                                    key={item.token_id}
-                                    ID={item.token_id}
-                                    nftName={item.name}
-                                    nftImage={item.image}
-                                    nftType={item.nftType}
-                                    quantity={item.quantity}
-                                />
-                            )
-                        })}
-                    </>
-                    :
-                    <Flex width='100%' justifyContent='center'>
-                        <Text mt="2rem">No Data</Text>
-                    </Flex>
-                }
-            </CsFlex>
-        </CsFlexContainer>
+
+        <PaginatedItems itemsPerPage={9} listCurrentItems={listCurrentItems} />
     )
 }
 export default ListShoes
@@ -143,3 +211,48 @@ const CsFlexContainer = styled(Flex)`
         align-items: center;
     }
 `
+
+const PaginationWrapper = styled.div`
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    
+    li {
+      margin: 0 5px;
+      display: inline-block;
+      
+      a {
+        color: #000;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        
+        &:hover {
+          background-color: #f7f7f7;
+        }
+      }
+      
+      &.active a {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+        cursor: default;
+        
+        &:hover {
+          background-color: #007bff;
+          color: #fff;
+          border-color: #007bff;
+        }
+      }
+      
+      &.disabled a {
+        color: #6c757d;
+        pointer-events: none;
+        cursor: default;
+      }
+    }
+  }
+`;
+

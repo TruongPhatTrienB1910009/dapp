@@ -2,15 +2,13 @@
 
 export const renderBGCard = (boxType) => {
     if (boxType === 0) {
-        return "#D3D3D3"
+        return '#dfdedd';
     } if (boxType === 1) {
-        return "#EEE8AA"
+        return '#fdba57';
     } if (boxType === 2) {
-        return "#CC99FF"
+        return '#E0115F';
     } if (boxType === 3) {
-        return "#FFE8D4"
-    } if (boxType === 4) {
-        return "#FEE0FF"
+        return '#FEE0FF';
     }
     return "transparent"
 }

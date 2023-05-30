@@ -1,13 +1,48 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ChainId } from '@pancakeswap/sdk'
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { FetchDataNft, GetAllowance, GetPriceNfts, SetPricesNft, GetBalanceOfToken } from "../hook/fetchDataMysteryBox"
+import { GetAllowance, GetPriceNfts, SetPricesNft, GetBalanceOfToken } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 import { useBuyNFT } from "../hook/useBuyNft";
 import { useApprove } from "../hook/useApprove";
+
+// Loading
+
+const Loading = () => {
+    const rotation = keyframes`
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    `;
+
+    const Spinner = styled.div`
+      border: 8px solid rgba(0, 0, 0, 0.1);
+      border-top-color: #07d669;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: ${rotation} 1s ease-in-out infinite;
+      margin: 0 auto;
+    `;
+
+    const Wrapper = styled.div`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `;
+
+    return (
+        <Wrapper>
+            <Spinner />
+        </Wrapper>
+    );
+};
 
 interface Props {
     filter?: number
@@ -20,15 +55,13 @@ const ListShoes: React.FC<Props> = () => {
         setRefresh(newValue)
     }
     const [balance, setBalance] = useState(-1)
-    const { handleApprove } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
+    const { handleApprove, requestedApproval } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
     const { ListPrices } = GetPriceNfts(chainId);
     const { Items } = SetPricesNft(ListPrices);
     const { allowance } = GetAllowance(account, chainId);
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
-    const [totalAllowance, setTotalAllowance] = useState(allowance);
     const [currentItems, setCurrentItems] = useState([...Items]);
     const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
-
 
     const onHandleApprove = () => {
         handleApprove();
@@ -39,15 +72,16 @@ const ListShoes: React.FC<Props> = () => {
     }
 
     useEffect(() => {
-        console.log("allowance", allowance)
         setCurrentItems([...Items])
     }, [ListPrices, allowance, balanceOfToken, account])
+
 
     useEffect(() => {
         if (balance > -1) {
             handleBuy();
             setBalance(-1);
         }
+        console.log("allowance", allowance)
     }, [balance])
 
 
@@ -75,7 +109,11 @@ const ListShoes: React.FC<Props> = () => {
                         })}
                     </>
                     :
-                    <h1>NO DATA</h1>
+                    <Flex width='100%' justifyContent='center'>
+                        <Text mt="2rem">
+                            <Loading />
+                        </Text>
+                    </Flex>
                 }
             </CsFlex>
         </CsFlexContainer>

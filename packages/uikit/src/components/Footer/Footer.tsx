@@ -39,7 +39,7 @@ const MenuItem: React.FC<FooterProps> = ({
             <ContainerMoreInformation>
               {MoreInformation.map((items) => {
                 return (
-                  <CustomLink href={items.href} target="_blank">
+                  <CustomLink key={items.href} href={items.href} target="_blank">
                     {items.label}
                   </CustomLink>
                 );

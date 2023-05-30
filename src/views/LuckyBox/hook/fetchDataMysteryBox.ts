@@ -95,7 +95,6 @@ export const GetAllowance = (account: string, chainId) => {
         const index = new BigNumber(idRunBox.toString()).toNumber();
 
         setAllowance((index / 1e18))
-        console.log("allowance", allowance)
       } catch (e) {
         console.log(e)
       }

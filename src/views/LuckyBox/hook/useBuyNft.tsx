@@ -9,7 +9,6 @@ import { getAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
 export const useBuyNFT = (chainId: number, onRefresh, balance) => {
-  console.log('buyItem useBuyNFT', balance)
   const [requestedBuy, setRequestBuy] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { callWithMarketGasPrice } = useCallWithMarketGasPrice()
