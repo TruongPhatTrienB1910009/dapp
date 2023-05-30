@@ -69,7 +69,9 @@ export const FetchDataNft = (account: string, chainId: number) => {
         console.log(e)
       }
     }
-    fetchDataBox()
+    if (account) {
+      fetchDataBox()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
   return { nftBalance }
@@ -93,11 +95,14 @@ export const GetAllowance = (account: string, chainId) => {
         const index = new BigNumber(idRunBox.toString()).toNumber();
 
         setAllowance((index / 1e18))
+        console.log("allowance", allowance)
       } catch (e) {
         console.log(e)
       }
     }
-    fetchDataBox()
+    if (account) {
+      fetchDataBox()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
   return { allowance }
@@ -123,7 +128,9 @@ export const GetBalanceOfToken = (account: string, chainId) => {
         console.log(e)
       }
     }
-    fetchDataBox()
+    if (account) {
+      fetchDataBox()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
   return { balanceOfToken }

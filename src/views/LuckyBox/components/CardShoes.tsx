@@ -57,9 +57,14 @@ const CardShoes: React.FC<PropsCard> = ({
                     </CustomText>
                 </Flex>
                 {
-                    (allowance < nftPrice && balanceOfToken >= nftPrice) ? (<Button onClick={handleApprove}>Approve</Button>) : ""
+                    (allowance >= 0) ? (
+                        (allowance < nftPrice || balanceOfToken < nftPrice) ? (<Button onClick={handleApprove}>Approve {nftPrice}</Button>) : (<Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice} USDT</Button>)
+                    ) : (
+                        <CustomText >
+                            {nftPrice}
+                        </CustomText>
+                    )
                 }
-                <Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice} USDT</Button>
             </Container>
         </>
     );

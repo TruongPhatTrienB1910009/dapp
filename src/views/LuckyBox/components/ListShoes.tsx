@@ -27,7 +27,7 @@ const ListShoes: React.FC<Props> = () => {
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
     const [totalAllowance, setTotalAllowance] = useState(allowance);
     const [currentItems, setCurrentItems] = useState([...Items]);
-    useBuyNFT(chainId, onRefresh, balance);
+    const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
 
 
     const onHandleApprove = () => {
@@ -35,19 +35,20 @@ const ListShoes: React.FC<Props> = () => {
     }
 
     const HandleBuyNft = ({ ID }) => {
-        console.log("ID", ID);
-        setBalance((prev) => {
-            console.log("prev", prev);
-            return ID;
-        });
-        console.log("balance", balance);
+        setBalance(ID);
     }
 
     useEffect(() => {
-        console.log(allowance)
-        console.log(balanceOfToken)
+        console.log("allowance", allowance)
         setCurrentItems([...Items])
-    }, [ListPrices, allowance, balanceOfToken, balanceOfToken])
+    }, [ListPrices, allowance, balanceOfToken, account])
+
+    useEffect(() => {
+        if (balance > -1) {
+            handleBuy();
+            setBalance(-1);
+        }
+    }, [balance])
 
 
     return (
