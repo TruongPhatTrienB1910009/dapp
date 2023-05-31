@@ -9,7 +9,7 @@ import { getAddress } from "utils/addressHelpers"
 import { useCallWithMarketGasPrice } from "hooks/useCallWithMarketGasPrice"
 
 
-export const useApprove = (chainId: number, contractAddress: string) => {
+export const useApprove = (chainId: number, contractAddress: string, approved: any) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { callWithMarketGasPrice } = useCallWithMarketGasPrice()
@@ -20,28 +20,33 @@ export const useApprove = (chainId: number, contractAddress: string) => {
   const handleApprove = useCallback(async () => {
     setPendingTx(true)
     try {
-      const tx = await callWithMarketGasPrice(tokenAddress, 'approve', [runMarketplaceContract, MaxUint256])
-      const receipt = await tx.wait()
+      if (approved) {
+        const tx = await callWithMarketGasPrice(tokenAddress, 'approve', [runMarketplaceContract, MaxUint256])
+        const receipt = await tx.wait()
 
-      if (receipt.status) {
-        toastSuccess(
-          t('Contract Enabled'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash} />
-        )
-        setRequestedApproval(true)
-        setPendingTx(false)
+        if (receipt.status) {
+          toastSuccess(
+            t('Contract Enabled'),
+            <ToastDescriptionWithTx txHash={receipt.transactionHash} />
+          )
+          setRequestedApproval(true)
+          setPendingTx(false)
+        } else {
+          // user rejected tx or didn't go thru
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setRequestedApproval(false)
+          setPendingTx(false)
+        }
       } else {
-        // user rejected tx or didn't go thru
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-        setRequestedApproval(false)
-        setPendingTx(false)
+        setRequestedApproval(false);
       }
     } catch (e) {
       console.error(e)
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
       setPendingTx(false)
     }
-  }, [callWithMarketGasPrice, tokenAddress, runMarketplaceContract, toastSuccess, t, toastError])
+
+  }, [callWithMarketGasPrice, tokenAddress, runMarketplaceContract, toastSuccess, t, toastError, approved])
 
   return { handleApprove, requestedApproval, pendingTx }
 }

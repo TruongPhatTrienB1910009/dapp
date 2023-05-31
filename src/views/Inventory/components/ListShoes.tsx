@@ -8,7 +8,7 @@ import CardShoes from "./CardShoes";
 
 // Loading
 
-const Loading = () => {
+export const Loading = () => {
     const rotation = keyframes`
       0% {
         transform: rotate(0deg);

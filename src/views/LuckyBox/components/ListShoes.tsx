@@ -1,48 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Loading } from "views/Inventory/components/ListShoes";
 import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { ChainId } from '@pancakeswap/sdk'
 import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import { GetAllowance, GetPriceNfts, SetPricesNft, GetBalanceOfToken } from "../hook/fetchDataMysteryBox"
+import { GetAllowance, GetPriceNfts, GetBalanceOfToken, SetPricesNft } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
 import { useBuyNFT } from "../hook/useBuyNft";
 import { useApprove } from "../hook/useApprove";
-
-// Loading
-
-const Loading = () => {
-    const rotation = keyframes`
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    `;
-
-    const Spinner = styled.div`
-      border: 8px solid rgba(0, 0, 0, 0.1);
-      border-top-color: #07d669;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: ${rotation} 1s ease-in-out infinite;
-      margin: 0 auto;
-    `;
-
-    const Wrapper = styled.div`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `;
-
-    return (
-        <Wrapper>
-            <Spinner />
-        </Wrapper>
-    );
-};
 
 interface Props {
     filter?: number
@@ -55,16 +21,18 @@ const ListShoes: React.FC<Props> = () => {
         setRefresh(newValue)
     }
     const [balance, setBalance] = useState(-1)
-    const { handleApprove, requestedApproval } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504")
+    const [approved, setApproved] = useState(false);
+    const { handleApprove, requestedApproval } = useApprove(1116, "0x585b34473CEac1D60BD9B9381D6aBaF122008504", approved)
     const { ListPrices } = GetPriceNfts(chainId);
-    const { Items } = SetPricesNft(ListPrices);
-    const { allowance } = GetAllowance(account, chainId);
+    const { allowance } = GetAllowance(account, chainId, requestedApproval);
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
-    const [currentItems, setCurrentItems] = useState([...Items]);
+    const [currentItems, setCurrentItems] = useState([]);
     const { handleBuy } = useBuyNFT(chainId, onRefresh, balance);
 
+    console.log("requestedApproval", requestedApproval);
+
     const onHandleApprove = () => {
-        handleApprove();
+        setApproved(true);
     }
 
     const HandleBuyNft = ({ ID }) => {
@@ -72,7 +40,11 @@ const ListShoes: React.FC<Props> = () => {
     }
 
     useEffect(() => {
+        const Items = SetPricesNft(ListPrices)
         setCurrentItems([...Items])
+        console.log("Items", Items)
+        console.log("allowance", allowance)
+        console.log("ListPrices", ListPrices)
     }, [ListPrices, allowance, balanceOfToken, account])
 
 
@@ -81,8 +53,21 @@ const ListShoes: React.FC<Props> = () => {
             handleBuy();
             setBalance(-1);
         }
-        console.log("allowance", allowance)
     }, [balance])
+
+    useEffect(() => {
+
+        handleApprove();
+        setApproved(false);
+
+        console.log(requestedApproval);
+        if (requestedApproval === true) {
+            const Items = SetPricesNft(ListPrices)
+            setCurrentItems([...Items])
+            console.log("setCurrentItems([...Items])", Items);
+            console.log("allowance", allowance)
+        }
+    }, [approved, requestedApproval])
 
 
     return (

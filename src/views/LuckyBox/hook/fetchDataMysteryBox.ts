@@ -78,7 +78,7 @@ export const FetchDataNft = (account: string, chainId: number) => {
 }
 
 
-export const GetAllowance = (account: string, chainId) => {
+export const GetAllowance = (account: string, chainId, getRequestApproval: any) => {
   const [allowance, setAllowance] = useState(0);
   const spender = getAddress(contracts.coreMarketPlace, chainId);
   useEffect(() => {
@@ -99,11 +99,14 @@ export const GetAllowance = (account: string, chainId) => {
         console.log(e)
       }
     }
-    if (account) {
+    if (account && !getRequestApproval) {
+      fetchDataBox()
+    }
+    if (getRequestApproval) {
       fetchDataBox()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account])
+  }, [account, getRequestApproval])
   return { allowance }
 }
 
@@ -172,22 +175,18 @@ export const GetPriceNfts = (chainId: number) => {
 export const SetPricesNft = (ListPrices: any) => {
   const boxName = ["Silver", "Gold", "Ruby"];
   const Items = [];
-
-  useEffect(() => {
-    if (ListPrices.length > 0) {
-      ListPrices.forEach((Price, index) => {
-        Items.push({
-          id: index,
-          name: `${boxName[index]} Box`,
-          image: `/images/luckybox/box${index}.png`,
-          desc: 'Box NFT',
-          price: Price,
-          nftType: index
-        })
+  if (ListPrices.length > 0) {
+    ListPrices.forEach((Price, index) => {
+      Items.push({
+        id: index,
+        name: `${boxName[index]} Box`,
+        image: `/images/luckybox/box${index}.png`,
+        desc: 'Box NFT',
+        price: Price,
+        nftType: index
       })
-    }
+    })
+  }
 
-  }, [ListPrices])
-
-  return { Items }
+  return Items;
 }
