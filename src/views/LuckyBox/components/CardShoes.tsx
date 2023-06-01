@@ -44,7 +44,7 @@ const CardShoes: React.FC<PropsCard> = ({
 }) => {
     return (
         <>
-            <Container background={renderBGCard(Number(nftType))}>
+            <Container>
                 <Flex width="100%" flexDirection="column">
                     <CustomCard>
                         <ImgShoes src={nftImage} alt='Image Box' />
@@ -84,7 +84,7 @@ const Container = styled.div<{ isHaving?: boolean, background?: string }>`
     @media screen and (max-width: 600px){
         padding: 15px 0px 15px 0px;
     }
-    background-color: ${(props) => (props.background)};
+    background-color: #f0f2ff;
     background-image: ${(props) => (props.background)};
 `
 const CustomCard = styled.div<{ background?: string }>`
@@ -106,7 +106,7 @@ const CustomText = styled(Text)`
     display: flex;
     align-item: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     margin-top: 10px
 `
@@ -138,19 +138,20 @@ const ContainerTags = styled(Flex) <{ background?: string }>`
 
 const Button = styled.button`
     width: 100%;
-    padding: 12px;
-    background-color: #8294C4;
+    padding: 8px;
+    background-color: #f0f2ff;
     margin-top: 10px;
     cursor: pointer;
     border-radius: 20px;
     &:hover {
-        background-color: #FFEAD2;
-        color: #8294C4;
+        background-color: #8391e1;
+        color: #000000;
     }
     font-size: 20px;
-    border: 1px solid #FFEAD2;
+    border: 3px solid #8391e1;
     font-weight: 600;
-    font-family: sans-serif;
+    font-family: Poppins, sans-serif;;
+    color: #000000;
 `
 
 

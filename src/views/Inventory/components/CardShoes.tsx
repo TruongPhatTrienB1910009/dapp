@@ -64,7 +64,7 @@ const Container = styled.div<{ isHaving?: boolean, background?: string }>`
     @media screen and (max-width: 600px){
         padding: 15px 0px 15px 0px;
     }
-    background-color: ${(props) => (props.background)};
+    background-color: #f0f2ff;
     background-image: ${(props) => (props.background)};
 `
 const CustomCard = styled.div<{ background?: string }>`
