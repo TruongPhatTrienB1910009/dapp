@@ -42,9 +42,6 @@ const ListShoes: React.FC<Props> = () => {
     useEffect(() => {
         const Items = SetPricesNft(ListPrices)
         setCurrentItems([...Items])
-        console.log("Items", Items)
-        console.log("allowance", allowance)
-        console.log("ListPrices", ListPrices)
     }, [ListPrices, allowance, balanceOfToken, account])
 
 
@@ -60,12 +57,9 @@ const ListShoes: React.FC<Props> = () => {
         handleApprove();
         setApproved(false);
 
-        console.log(requestedApproval);
         if (requestedApproval === true) {
             const Items = SetPricesNft(ListPrices)
             setCurrentItems([...Items])
-            console.log("setCurrentItems([...Items])", Items);
-            console.log("allowance", allowance)
         }
     }, [approved, requestedApproval])
 

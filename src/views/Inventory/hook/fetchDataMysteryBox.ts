@@ -119,8 +119,10 @@ export const FetDataNft = (ListTokenId: number[]) => {
 
       const Nfts = await Promise.all(promises);
 
-      setListNfts(Nfts);
-      console.log(listNfts);
+
+      if (Nfts.length > 0) {
+        setListNfts(Nfts);
+      }
     }
 
     if (listNfts.length < ListTokenId.length) {

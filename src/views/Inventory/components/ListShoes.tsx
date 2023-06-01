@@ -5,6 +5,8 @@ import { Text, Flex, Button } from "@pancakeswap/uikit"
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import { GetNftBalance, FetchTokenOfOwnerByIndex, FetDataNft } from "../hook/fetchDataMysteryBox"
 import CardShoes from "./CardShoes";
+import { useTranslation } from "@pancakeswap/localization";
+
 
 // Loading
 
@@ -48,28 +50,18 @@ function Items({ currentItems }) {
         <>
             <CsFlexContainer width="100%" flexDirection="column" mt="3rem" height="auto" minHeight="50vh">
                 <CsFlex>
-                    {currentItems?.length !== 0 ?
-                        <>
-                            {currentItems?.map((item) => {
-                                return (
-                                    <CardShoes
-                                        key={item.token_id}
-                                        ID={item.token_id}
-                                        nftName={item.name}
-                                        nftImage={item.image}
-                                        nftType={item.nftType}
-                                        quantity={item.quantity}
-                                    />
-                                )
-                            })}
-                        </>
-                        :
-                        <Flex width='100%' justifyContent='center'>
-                            <Text mt="2rem">
-                                <Loading />
-                            </Text>
-                        </Flex>
-                    }
+                    {currentItems?.map((item) => {
+                        return (
+                            <CardShoes
+                                key={item.token_id}
+                                ID={item.token_id}
+                                nftName={item.name}
+                                nftImage={item.image}
+                                nftType={item.nftType}
+                                quantity={item.quantity}
+                            />
+                        )
+                    })}
                 </CsFlex>
             </CsFlexContainer>
         </>
@@ -91,6 +83,7 @@ function PaginatedItems({ itemsPerPage, listCurrentItems }) {
         );
         setItemOffset(newOffset);
     };
+
 
     return (
         <>
@@ -126,7 +119,7 @@ interface Props {
     query?: string
 }
 const ListShoes: React.FC<Props> = () => {
-
+    const { t } = useTranslation()
     const { account, chainId } = useActiveWeb3React()
     const { nftBalance } = GetNftBalance(account, chainId)
     const { tokenOfOwnerByIndex } = FetchTokenOfOwnerByIndex(account, nftBalance, chainId);
@@ -134,12 +127,19 @@ const ListShoes: React.FC<Props> = () => {
     const [listCurrentItems, setListCurrentItems] = useState([]);
 
     useEffect(() => {
-        setListCurrentItems(listNfts);
+        setListCurrentItems(listNfts)
     }, [nftBalance, tokenOfOwnerByIndex, listNfts])
 
     return (
-
-        <PaginatedItems itemsPerPage={9} listCurrentItems={listCurrentItems} />
+        <>
+            {
+                (listCurrentItems.length === 0) ? (
+                    <Flex width='100%' justifyContent='center'>
+                        <Text mt="2rem">{t("No Data")}</Text>
+                    </Flex>
+                ) : (<PaginatedItems itemsPerPage={9} listCurrentItems={listCurrentItems} />)
+            }
+        </>
     )
 }
 export default ListShoes
