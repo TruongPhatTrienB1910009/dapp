@@ -28,6 +28,7 @@ interface PropsCard {
     handleApprove?: any
     allowance?: number
     balanceOfToken?: number
+    pendingBuy?: any
 }
 
 const CardShoes: React.FC<PropsCard> = ({
@@ -40,7 +41,8 @@ const CardShoes: React.FC<PropsCard> = ({
     onHandleBuyNft,
     handleApprove,
     allowance,
-    balanceOfToken
+    balanceOfToken,
+    pendingBuy
 }) => {
     return (
         <>
@@ -58,7 +60,7 @@ const CardShoes: React.FC<PropsCard> = ({
                 </Flex>
                 {
                     (allowance >= 0) ? (
-                        (allowance < nftPrice || balanceOfToken < nftPrice) ? (<Button onClick={handleApprove}>Approve {nftPrice} {allowance}</Button>) : (<Button onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice} USDT</Button>)
+                        (allowance < nftPrice || balanceOfToken < nftPrice) ? (<Button style={{ background: pendingBuy && 'red' }} onClick={handleApprove}>Approve {nftPrice}</Button>) : (<Button style={{ background: pendingBuy && 'red' }} onClick={() => { onHandleBuyNft({ ID, nftPrice }) }}>{nftPrice} USDT</Button>)
                     ) : (
                         <CustomText >
                             {nftPrice}

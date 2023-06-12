@@ -27,8 +27,7 @@ const ListShoes: React.FC<Props> = () => {
     const { allowance } = GetAllowance(account, chainId, requestedApproval);
     const { balanceOfToken } = GetBalanceOfToken(account, chainId);
     const [currentItems, setCurrentItems] = useState([]);
-    const { handleBuy, isCloseBuy } = useBuyNFT(chainId, onRefresh, balance);
-    console.log("isCloseBuy", isCloseBuy)
+    const { handleBuy, isCloseBuy, pendingBuy } = useBuyNFT(chainId, onRefresh, balance);
 
     const onHandleApprove = () => {
         setApproved(true);
@@ -81,6 +80,7 @@ const ListShoes: React.FC<Props> = () => {
                                     nftType={item.nftType}
                                     onHandleBuyNft={HandleBuyNft}
                                     handleApprove={onHandleApprove}
+                                    pendingBuy={pendingBuy}
                                 />
                             )
                         })}
